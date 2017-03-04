@@ -46,23 +46,12 @@ namespace AimyMovieStore.Controllers
             if (ModelState.IsValid)
             {
                 var cookie = Request.Cookies.Get("SelectedIds");
+                if (cookie == null) return Json(new[] { movie }.ToDataSourceResult(request, ModelState));
+
                 var ids = JsonConvert.DeserializeObject<List<int>>(cookie.Value);
                 ids.Remove(movie.Id);
                 cookie.Value = JsonConvert.SerializeObject(ids);
                 Response.SetCookie(cookie);
-                //                Request.Cookies.Set(cookie);
-                //
-                //                var entity = new Movie
-                //                {
-                //                    Id = movie.Id,
-                //                    Name = movie.Name,
-                //                    Genre = movie.Genre,
-                //                    Price = movie.Price
-                //                };
-                //
-                //                db.Movies.Attach(entity);
-                //                db.Movies.Remove(entity);
-                //                db.SaveChanges();
             }
 
             return Json(new[] { movie }.ToDataSourceResult(request, ModelState));

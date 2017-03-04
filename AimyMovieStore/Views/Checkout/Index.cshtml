@@ -1,4 +1,7 @@
-﻿
+﻿@{
+    ViewBag.Title = "Checkout";
+}
+
 @(Html.Kendo().Grid<AimyMovieStore.Models.Movie>()
       .Name("grid")
       .Columns(columns =>
@@ -23,5 +26,19 @@
           .Model(model => model.Id(p => p.Id))
           .Read(read => read.Action("Movies_Read", "Checkout"))
           .Destroy(destroy => destroy.Action("Movies_Destroy", "Checkout"))
+          .Events(e => e.Change("onChange"))
       )
 )
+
+<script>
+    function onChange(e) { //update the aggregate column
+        if (e.action === "remove") {
+            var grid = $("#grid").data("kendoGrid");
+            var dataSource = this;
+            var sum = 0;
+            dataSource.data().forEach(m => sum += m.Price);
+            dataSource.aggregates().Price.sum = sum;
+            grid.footer.find(".k-footer-template").replaceWith(grid.footerTemplate(dataSource.aggregates()));
+        }
+    }
+</script>
