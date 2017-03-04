@@ -1,0 +1,23 @@
+﻿
+@(Html.Kendo().Grid<AimyMovieStore.Models.Movie>()
+      .Name("grid")
+      .Columns(columns =>
+      {
+        columns.Bound(c => c.Name);
+        columns.Bound(c => c.Genre);
+        columns.Bound(c => c.Price);
+        columns.Command(command => {command.Destroy(); }).Width(180);
+      })
+      .ToolBar(toolbar => {
+            toolbar.Excel();
+            toolbar.Pdf();
+      })
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Scrollable(scrollable => scrollable.Enabled(false))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Model(model => model.Id(p => p.Id))
+          .Read(read => read.Action("Movies_Read", "Checkoutt"))
+          .Destroy(destroy => destroy.Action("Movies_Destroy", "Checkoutt"))
+      )
+)

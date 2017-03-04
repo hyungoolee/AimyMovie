@@ -1,0 +1,22 @@
+﻿
+@(Html.Kendo().Grid<AimyMovieStore.Models.Movie>()
+      .Name("grid")
+      .Columns(columns =>
+      {
+        columns.Bound(c => c.Name);
+        columns.Bound(c => c.Genre);
+        columns.Bound(c => c.Price);
+      })
+      .ToolBar(toolbar => {
+            toolbar.Excel();
+            toolbar.Pdf();
+      })
+      .ColumnMenu()
+      .Navigatable()
+      .Scrollable(scrollable => scrollable.Enabled(false))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .ServerOperation(false)
+          .Read(read => read.Action("Movies_Read", "Grid"))
+      )
+)

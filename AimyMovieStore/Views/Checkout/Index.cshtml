@@ -1,0 +1,27 @@
+﻿
+@(Html.Kendo().Grid<AimyMovieStore.Models.Movie>()
+      .Name("grid")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.Name);
+          columns.Bound(c => c.Genre);
+          columns.Bound(c => c.Price).Format("{0:c2}")
+            .ClientFooterTemplate("Total: #=kendo.toString(sum, 'c2')#");
+          columns.Command(command => { command.Destroy(); }).Width(180);
+      })
+      .ToolBar(toolbar =>
+      {
+          toolbar.Custom().Text("BACK TO LIST").Action("Index", "Movies");
+          toolbar.Excel();
+          toolbar.Pdf();
+      })
+      .Editable(editable => editable.Mode(GridEditMode.InLine))
+      .Scrollable(scrollable => scrollable.Enabled(false))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Aggregates(e => e.Add(m => m.Price).Sum())
+          .Model(model => model.Id(p => p.Id))
+          .Read(read => read.Action("Movies_Read", "Checkout"))
+          .Destroy(destroy => destroy.Action("Movies_Destroy", "Checkout"))
+      )
+)
