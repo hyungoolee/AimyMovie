@@ -13,7 +13,7 @@
         }
 
         /* Sticky footer styles
-    -------------------------------------------------- */
+        -------------------------------------------------- */
         html {
             position: relative;
             min-height: 100%;
@@ -48,6 +48,7 @@
         p .k-button {
             margin: 0 15px 0 0;
         }
+
         .btn-toggle {
             position: absolute;
             top: 0;
@@ -56,52 +57,62 @@
             height: 48px;
         }
 
-        .btn-toggle .k-icon {
-            opacity: 1;
-        }
+            .btn-toggle .k-icon {
+                opacity: 1;
+            }
 
-        .btn-toggle,
-        .k-primary.btn-toggle:hover,
-        .btn-toggle:focus:active:not(.k-state-disabled):not([disabled]),
-        .btn-toggle:focus:not(.k-state-disabled):not([disabled]) {
-            box-shadow: none;
-            border-radius: 0;
-        }
+            .btn-toggle,
+            .k-primary.btn-toggle:hover,
+            .btn-toggle:focus:active:not(.k-state-disabled):not([disabled]),
+            .btn-toggle:focus:not(.k-state-disabled):not([disabled]) {
+                box-shadow: none;
+                border-radius: 0;
+            }
 
-        .btn-toggle .k-i-hbars,
-        .k-primary.btn-toggle:hover .k-i-hbars,
-        .btn-toggle:focus:active:not(.k-state-disabled):not([disabled]) .k-i-hbars,
-        .btn-toggle:focus:not(.k-state-disabled):not([disabled]) .k-i-hbars {
-            background-position: -80px -32px;
-        }
+                .btn-toggle .k-i-hbars,
+                .k-primary.btn-toggle:hover .k-i-hbars,
+                .btn-toggle:focus:active:not(.k-state-disabled):not([disabled]) .k-i-hbars,
+                .btn-toggle:focus:not(.k-state-disabled):not([disabled]) .k-i-hbars {
+                    background-position: -80px -32px;
+                }
+
         @@media (max-width: 768px) {
-          .k-item {
-            display: block;
-            clear: both;
-            float: none;
-            width: 100%;
-          }
+            .k-item {
+                display: block;
+                clear: both;
+                float: none;
+                width: 100%;
+            }
 
-          .k-header h1 {
-            margin: 0;
-            padding: 16px 15px 14px 60px;
-            font-size: 18px;
-            font-weight: lighter;
-           }
+            .k-header h1 {
+                margin: 0;
+                padding: 16px 15px 14px 60px;
+                font-size: 18px;
+                font-weight: lighter;
+            }
         }
     </style>
-	<link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.common-material.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
-	<link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.material.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.common-material.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.material.min.css" rel="stylesheet" type="text/css" />
     <link href="https://kendo.cdn.telerik.com/2017.1.223/styles/kendo.dataviz.material.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.1.0/jquery-confirm.min.css">
-	<script src="https://kendo.cdn.telerik.com/2017.1.223/js/jquery.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2017.1.223/js/jszip.min.js"></script>
-	<script src="https://kendo.cdn.telerik.com/2017.1.223/js/kendo.all.min.js"></script>
+    <style>
+        .k-widget {
+            border-style: none;
+        }
+
+        .k-button:focus:not(.k-state-disabled):not([disabled]) {
+            box-shadow: none;
+        }
+    </style>
+    <script src="https://kendo.cdn.telerik.com/2017.1.223/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.1.223/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2017.1.223/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2017.1.223/js/kendo.aspnetmvc.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.1.0/jquery-confirm.min.js"></script>
-	<script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 </head>
 <body>
     <div class="container-fluid">
