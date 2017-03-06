@@ -6,18 +6,18 @@
 <script>
     $(document).ready(function() {
         $("#grid").kendoGrid({
-            height: 480,
+            height: 489,
             columns: [
                 { field: "", template: "<input type='checkbox' class='checkbox' value='#= Id #' />", width: 60 },
                 { field: "Name" },
-                { field: "Genre" },
-                { field: "Price" },
+                { field: "Genre", filterable: {multi: true, search: true} },
+                { field: "Price", format: "{0:c2}" },
                 { command: ["edit", "destroy"], width: 180 }
             ],
             toolbar: [
-                "create",
-                { name: "SAVE MY SELECTION", attr: " id='addToCart'" },
-                { template: "<a role='button' class='k-button k-button-icontext k-grid-CHECKOUT' href='/Checkout'>CHECK OUT</a>" }
+                { name: "create", text: "CREATE NEW MOVIE" },
+                { text: "SAVE MY SELECTION", attr: " id='addToCart'" },
+                { template: "<a role='button' class='k-button k-button-icontext k-grid-CHECKOUT' href='/Checkout/Index'>CHECK OUT</a>" }
             ],
             dataSource: {
                 type: "aspnetmvc-ajax",

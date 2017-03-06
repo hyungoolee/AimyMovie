@@ -28,8 +28,7 @@ namespace AimyMovieStore.Controllers
             }
             var ids = JsonConvert.DeserializeObject<int[]>(cookie.Value);
             var movies = ids.Select(id => db.Movies.Find(id));
-            //IQueryable<Movie> movies = db.Movies;
-            DataSourceResult result = movies.ToDataSourceResult(request, movie => new
+            DataSourceResult result = movies.Where(m => m != null).ToDataSourceResult(request, movie => new
             {
                 Id = movie.Id,
                 Name = movie.Name,
