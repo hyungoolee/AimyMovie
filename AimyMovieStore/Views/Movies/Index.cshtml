@@ -2,54 +2,90 @@
     ViewBag.Title = "Aimy's Movies";
 }
 
-@(Html.Kendo().Grid<AimyMovieStore.Models.Movie>()
-      .Name("grid")
-      .Columns(columns =>
-      {
-          columns.Template(@<text></text>).ClientTemplate("<input type='checkbox' class='checkbox' value='#= Id #' />");
-          columns.Bound(c => c.Name);
-          columns.Bound(c => c.Genre).Filterable(ft => ft.Multi(true).Search(true));
-          //columns.Bound(c => c.ReleaseDate).Width(120).Format("{0:MM/dd/yyyy}");
-          columns.Bound(c => c.Price).Format("{0:c2}");
-          columns.Command(command => { command.Edit(); command.Destroy(); }).Width(180);
-      })
-      .ToolBar(toolbar =>
-      {
-          toolbar.Create().Text("ADD NEW MOVIE");
-          toolbar.Custom().Text("SAVE MY SELECTION").HtmlAttributes(new {id="addToCart"});
-          toolbar.Custom().Text("CHECK OUT").Action("Index", "Checkout");
-      })
-      .Editable(editable => editable.Mode(GridEditMode.InLine))
-      .Pageable()
-      .Navigatable()
-      .Sortable(sortable =>
-      {
-          sortable.SortMode(GridSortMode.SingleColumn);
-      })
-      .Filterable()
-      .Scrollable()
-      .HtmlAttributes(new { style = "height:480px;" })
-      .DataSource(dataSource => dataSource
-          .Ajax()
-          .Model(model => model.Id(p => p.Id))
-          .Read(read => read.Action("Movies_Read", "Movies"))
-          .Create(create => create.Action("Movies_Create", "Movies"))
-          .Update(update => update.Action("Movies_Update", "Movies"))
-          .Destroy(destroy => destroy.Action("Movies_Destroy", "Movies"))
-      )
-)
-
+<div id="grid"></div>
 <script>
-    $(document).ready(function () {
-        //bind click event to the checkbox
-        $("#grid").on("change", ":checkbox", function (e) {
+    $(document).ready(function() {
+        $("#grid").kendoGrid({
+            height: 480,
+            columns: [
+                { field: "", template: "<input type='checkbox' class='checkbox' value='#= Id #' />", width: 60 },
+                { field: "Name" },
+                { field: "Genre" },
+                { field: "Price" },
+                { command: ["edit", "destroy"], width: 180 }
+            ],
+            toolbar: [
+                "create",
+                { name: "SAVE MY SELECTION", attr: " id='addToCart'" },
+                { template: "<a role='button' class='k-button k-button-icontext k-grid-CHECKOUT' href='/Checkout'>CHECK OUT</a>" }
+            ],
+            dataSource: {
+                type: "aspnetmvc-ajax",
+                transport: {
+                    read: {
+                        url: "Movies/Movies_Read"
+                    },
+                    create: {
+                        url: "Movies/Movies_Create"
+                    },
+                    update: {
+                        url: "Movies/Movies_Update"
+                    },
+                    destroy: {
+                        url: "Movies/Movies_Destroy"
+                    }
+                },
+                schema: {
+                    data: "Data",
+                    model: {
+                        id: "Id",
+                        fields: {
+                            Id: { type: "number" },
+                            Name: { type: "string" },
+                            Genre: { type: "string" },
+                            Price: { type: "number" }
+                        }
+                    },
+                    total: function(response) {
+                        return response.Total;
+                    }
+                },
+                serverPaging: true,
+                serverSorting: true,
+                pageSize: 5
+            },
+            dataBound: function(e) {
+                var view = this.dataSource.view();
+                for (var i = 0; i < view.length; i++) {
+                    if (checkedIds[view[i].id]) {
+                        this.tbody.find("tr[data-uid='" + view[i].uid + "']")
+                            .addClass("k-state-selected")
+                            .find(".checkbox")
+                            .attr("checked", "checked");
+                    }
+                }
+            },
+            editable: "inline",
+            pageable: {
+                input: true,
+                numeric: false
+            },
+            navigatable: true,
+            sortable: {
+                mode: "single"
+            },
+            filterable: true,
+            scrollable: true
+        });
+
+        $("#grid").on("change", "input:checkbox", function (e) {
             var checkbox = e.currentTarget;
             var row = $(checkbox).closest("tr");
             checkedIds[checkbox.value] = checkbox.checked;
 
             //var grid = $("#grid").data("kendoGrid");
-            //var dataItem = grid.dataItem(row);
-            //checkedIds[dataItem.Id] = checkbox.checked;
+            //var movie = grid.dataItem(row);
+            //checkedIds[movie.Id] = checkbox.checked;
 
             // toggle selected state of the parent table row
             row.toggleClass("k-state-selected", checkbox.checked);
@@ -69,7 +105,7 @@
                     title: "No movies were selected!",
                     content: "Please select at least one movie.",
                     buttons: {
-                        Ok: function () {}
+                        Ok: function () { }
                     }
                 });
             } else {
@@ -81,10 +117,10 @@
                         title: "Successfully added to your cart!",
                         content: "Do you want to checkout now?",
                         buttons: {
-                            Yes: function() {
+                            Yes: function () {
                                 window.location.replace("/Checkout/Index");
                             },
-                            No: function(){}
+                            No: function () { }
                         }
                     });
                 });
@@ -93,17 +129,4 @@
     });
 
     var checkedIds = {};
-
-    //on dataBound event restore previous selected rows:
-    function onDataBound(e) {
-        var view = this.dataSource.view();
-        for (var i = 0; i < view.length; i++) {
-            if (checkedIds[view[i].id]) {
-                this.tbody.find("tr[data-uid='" + view[i].uid + "']")
-                    .addClass("k-state-selected")
-                    .find(".checkbox")
-                    .attr("checked", "checked");
-            }
-        }
-    }
 </script>

@@ -1,7 +1,6 @@
 ﻿using AimyMovieStore.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -110,22 +109,6 @@ namespace AimyMovieStore.Controllers
             }
 
             return Json(new[] { movie }.ToDataSourceResult(request, ModelState));
-        }
-
-        [HttpPost]
-        public ActionResult Excel_Export_Save(string contentType, string base64, string fileName)
-        {
-            var fileContents = Convert.FromBase64String(base64);
-
-            return File(fileContents, contentType, fileName);
-        }
-
-        [HttpPost]
-        public ActionResult Pdf_Export_Save(string contentType, string base64, string fileName)
-        {
-            var fileContents = Convert.FromBase64String(base64);
-
-            return File(fileContents, contentType, fileName);
         }
 
         protected override void Dispose(bool disposing)
