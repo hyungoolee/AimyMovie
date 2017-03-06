@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Movies";
+    ViewBag.Title = "Aimy's Movies";
 }
 
 @(Html.Kendo().Grid<AimyMovieStore.Models.Movie>()
@@ -8,7 +8,7 @@
       {
           columns.Template(@<text></text>).ClientTemplate("<input type='checkbox' class='checkbox' value='#= Id #' />");
           columns.Bound(c => c.Name);
-          columns.Bound(c => c.Genre);
+          columns.Bound(c => c.Genre).Filterable(ft => ft.Multi(true).Search(true));
           //columns.Bound(c => c.ReleaseDate).Width(120).Format("{0:MM/dd/yyyy}");
           columns.Bound(c => c.Price).Format("{0:c2}");
           columns.Command(command => { command.Edit(); command.Destroy(); }).Width(180);
@@ -16,24 +16,19 @@
       .ToolBar(toolbar =>
       {
           toolbar.Create().Text("ADD NEW MOVIE");
-          toolbar.Custom().Text("SAVE TO CART").HtmlAttributes(new {@id="addToCart"});
+          toolbar.Custom().Text("SAVE MY SELECTION").HtmlAttributes(new {id="addToCart"});
           toolbar.Custom().Text("CHECK OUT").Action("Index", "Checkout");
       })
-      .ColumnMenu()
       .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Pageable()
       .Navigatable()
-      //      .Selectable(selectable =>
-      //      {
-      //          selectable.Mode(GridSelectionMode.Single);
-      //          selectable.Type(GridSelectionType.Row);
-      //      })
       .Sortable(sortable =>
       {
           sortable.SortMode(GridSortMode.SingleColumn);
       })
       .Filterable()
       .Scrollable()
+      .HtmlAttributes(new { style = "height:480px;" })
       .DataSource(dataSource => dataSource
           .Ajax()
           .Model(model => model.Id(p => p.Id))
@@ -46,11 +41,6 @@
 
 <script>
     $(document).ready(function () {
-        //Grid definition
-        $("#grid").kendoGrid({
-            height: 480
-        }).data("kendoGrid");
-
         //bind click event to the checkbox
         $("#grid").on("change", ":checkbox", function (e) {
             var checkbox = e.currentTarget;
@@ -75,7 +65,13 @@
             }
 
             if (selected.length === 0) {
-                alert("You must select at least one movie.");
+                $.confirm({
+                    title: "No movies were selected!",
+                    content: "Please select at least one movie.",
+                    buttons: {
+                        Ok: function () {}
+                    }
+                });
             } else {
                 $.get("/Movies/Cart",
                 {
@@ -91,11 +87,6 @@
                             No: function(){}
                         }
                     });
-//                    var ans = confirm("Successfully added to your cart.\n" +
-//                        "Do you want to checkout now?");
-//                    if (ans === true) {
-//                        window.location.replace("/Checkout/Index");
-//                    }
                 });
             }
         });

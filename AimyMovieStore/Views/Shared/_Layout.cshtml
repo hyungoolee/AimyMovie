@@ -107,21 +107,6 @@
     <div class="container-fluid">
         <div class="row k-header">
             <h1>@ViewBag.Title</h1>
-@*            <div id="responsive-panel">*@
-@*                @(Html.Kendo().Menu()*@
-@*                  .Name("Menu")*@
-@*                  .Items(items =>*@
-@*                  {*@
-@*                      items.Add().Text("Item 1");*@
-@*                      items.Add().Text("Item 2");*@
-@*                      items.Add().Text("Item 3");*@
-@*                      items.Add().Text("Item 4");*@
-@*                      items.Add().Text("Item 5");*@
-@*                      items.Add().Text("Disabled item").Enabled(false);*@
-@*                  })*@
-@*                )*@
-@*            </div>*@
-@*            <button id="configure" class="k-rpanel-toggle k-button k-primary btn-toggle"><span class="k-icon k-i-hbars"></span></button>*@
         </div>
     </div>
 
@@ -142,17 +127,17 @@
         </div>
     </footer>
 
-<script>
-    $(document).ready(function () {
-        $("#responsive-panel").kendoResponsivePanel({
-            breakpoint: 768,
-            autoClose: false,
-            orientation: "top"
+    <script>
+        $(document).ready(function () {
+            $("#responsive-panel").kendoResponsivePanel({
+                breakpoint: 768,
+                autoClose: false,
+                orientation: "top"
+            });
         });
-    });
-    function onclick(e) {
-        $("#responsive-panel").getKendoResponsivePanel().toggle();
-    }
-</script>
+        function onclick(e) {
+            $("#responsive-panel").getKendoResponsivePanel().toggle();
+        }
+    </script>
 </body>
 </html>

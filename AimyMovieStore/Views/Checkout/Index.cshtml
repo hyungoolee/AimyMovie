@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Checkout";
+    ViewBag.Title = "No Pay No Play";
 }
 
 @(Html.Kendo().Grid<AimyMovieStore.Models.Movie>()
@@ -15,8 +15,6 @@
       .ToolBar(toolbar =>
       {
           toolbar.Custom().Text("BACK TO LIST").Action("Index", "Movies");
-          toolbar.Excel();
-          toolbar.Pdf();
       })
       .Editable(editable => editable.Mode(GridEditMode.InLine))
       .Scrollable(scrollable => scrollable.Enabled(false))
